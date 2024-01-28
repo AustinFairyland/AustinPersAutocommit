@@ -62,8 +62,7 @@ class Main:
 
             git_automator.checkout_branch()
             git_automator.modify_and_commit(
-                file_path="_main.py",
-                content=f"print('{DateTimeUtils.normdatetime()}')",
+                file_path=f"_main_{datetime.now().date()}.py",
                 commit_message="Modify file and commit",
             )
             git_automator.push_changes()
