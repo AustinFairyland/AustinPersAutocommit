@@ -1,0 +1,2 @@
+GitPython==3.1.41
+PyFairyland==0.0.2a15.post20240128
