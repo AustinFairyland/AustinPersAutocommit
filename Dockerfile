@@ -23,10 +23,10 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/source
     wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
     /bin/bash /tmp/miniconda.sh -b -p /opt/conda
 ENV PATH /opt/conda/bin:$PATH
-RUN conda create -n myenv python=3.9.13 && echo "source activate myenv" >> ~/.bashrc && \
+RUN conda create -n venv python=3.9.13 -y && echo "source activate venv" >> ~/.bashrc && \
     mkdir -p ~/.ssh/ && cp /application/conf/ssh-config/config ~/.ssh/config && \
-    /bin/bash -c "source activate myenv && pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple" && \
+    /bin/bash -c "source activate venv && pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple" && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     unset DEBIAN_FRONTEND && \
     cat ~/.ssh/id_ed25519.pub
-CMD ["/bin/bash", "-c", "cat ~/.ssh/id_ed25519.pub && source activate myenv && python main.py"]
+CMD ["/bin/bash", "-c", "cat ~/.ssh/id_ed25519.pub && source activate venv && python main.py"]
