@@ -60,7 +60,7 @@ class GitAutomator:
     def modify_and_commit(self, file_path, content, commit_message):
         Journal.info("开始需改文件...")
         full_path = os.path.join(self.repo_path, file_path)
-        with open(full_path, "w") as file:
+        with open(full_path, "a") as file:
             file.write(content)
         Journal.success("文件写入完成...")
         self.repo.git.add(file_path)

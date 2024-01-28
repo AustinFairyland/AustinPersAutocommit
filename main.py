@@ -25,9 +25,11 @@ import types
 
 import time
 import random
+from datetime import datetime
 
 from core.Autocommit import GitAutomator
 from fairyland.framework.modules.journal import Journal
+from fairyland.framework.utils.datetimes import DateTimeUtils
 
 
 class Main:
@@ -61,12 +63,12 @@ class Main:
             git_automator.checkout_branch()
             git_automator.modify_and_commit(
                 file_path="_main.py",
-                content=f"print('{time.time()}')",
+                content=f"print('{DateTimeUtils.normdatetime()}')",
                 commit_message="Modify file and commit",
             )
             git_automator.push_changes()
             Journal.info("执行结束")
-            sleep_time = random.randint(1, 10)
+            sleep_time = random.randint(100, 500)
             Journal.warning(f"{sleep_time}秒后继续执行...")
             time.sleep(sleep_time)
 
