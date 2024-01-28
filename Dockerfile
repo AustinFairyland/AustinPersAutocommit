@@ -2,8 +2,8 @@ FROM ubuntu:22.04
 LABEL authors="austin"
 WORKDIR /application
 ADD . /application
-ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="Asia/Shanghai"
+ENV DEBIAN_FRONTEND="noninteractive"
 ENV GIT_USERNAME="AustinFairyland"
 ENV GIT_EMAIL="fairylandhost@outlook.com"
 RUN sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
