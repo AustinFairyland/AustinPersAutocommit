@@ -78,7 +78,7 @@ class GitAutomator:
         with open(full_path, "a") as file:
             file.write(content)
         Journal.success("The file is written...")
-        self.repo.git.add(file_name)
+        self.repo.git.add(f"{now_date.year}/{now_date.month:02d}/{file_name}")
         Journal.success("File added...")
         self.repo.index.commit(commit_message)
         Journal.success("File submission to staging area completed...")
