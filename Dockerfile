@@ -19,7 +19,7 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/source
     ssh-add ~/.ssh/id_ed25519 && \
 #    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
     ssh-keyscan ssh.github.com >> ~/.ssh/known_hosts && \
-    #wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+#    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
     wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
     /bin/bash /tmp/miniconda.sh -b -p /opt/conda
 ENV PATH /opt/conda/bin:$PATH
