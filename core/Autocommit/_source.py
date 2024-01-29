@@ -64,19 +64,21 @@ class GitAutomator:
             self.repo.git.checkout("-b", self.branch_name)
             Journal.success(f"Branch switch completed {self.branch_name} ...")
 
-    def modify_and_commit(self, file_path, content, commit_message):
+    def modify_and_commit(self, file_name, content, commit_message):
         Journal.info("Start modifying the file...")
         now_date = datetime.now().date()
-        full_path = os.path.join(
+        file_path = os.path.join(
             self.repo_path,
             f"{now_date.year}",
-            f"{now_date.month}-{now_date.day}",
-            file_path,
+            f"{now_date.month:02d}",
         )
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+        full_path = os.path.join(file_path, file_name)
         with open(full_path, "a") as file:
             file.write(content)
         Journal.success("The file is written...")
-        self.repo.git.add(file_path)
+        self.repo.git.add(file_name)
         Journal.success("File added...")
         self.repo.index.commit(commit_message)
         Journal.success("File submission to staging area completed...")
