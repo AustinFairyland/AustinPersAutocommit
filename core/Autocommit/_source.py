@@ -25,6 +25,7 @@ import types
 
 from git import Repo, GitCommandError
 import time
+from datetime import datetime
 from fairyland.framework.modules.journal import Journal
 
 
@@ -34,41 +35,44 @@ class GitAutomator:
         self.remote_url = remote_url
         self.branch_name = branch_name
         self.repo = self.initialize_repo()
-        Journal.success("远程仓库拉取成功...")
+        Journal.success("The remote repository was pulled successfully...")
 
     def initialize_repo(self):
         if not os.path.exists(self.repo_path):
-            Journal.info(f"开始克隆仓库: {self.remote_url} 到 {self.repo_path} ...")
+            Journal.info(f"Start cloning the repository: {self.remote_url} to {self.repo_path} ...")
             return Repo.clone_from(self.remote_url, self.repo_path)
         else:
-            Journal.info(f"本地: {self.repo_path} 已有远程仓库: {self.remote_url}")
+            Journal.info(f"Local: {self.repo_path} Existing remote repository: {self.remote_url}")
             return Repo(self.repo_path)
 
     def checkout_branch(self):
         try:
             self.repo.git.checkout(self.branch_name)
-            Journal.success(f"切换分支 {self.branch_name} 成功")
+            Journal.success(f"Switch branch successfully {self.branch_name} ")
         except GitCommandError:
             master_branch = (
                 "ReleaseMaster" if "ReleaseMaster" in self.repo.heads else "master"
             )
             self.repo.git.checkout(master_branch)
-            Journal.success(f"切换默认分支 {master_branch} 成功")
+            Journal.success(f"Toggling the default branch is complete {master_branch} ...")
             self.repo.git.checkout("-b", self.branch_name)
-            Journal.success(f"切换分支 {self.branch_name} 成功")
+            Journal.success(f"Branch switch completed {self.branch_name} ...")
 
     def modify_and_commit(self, file_path, content, commit_message):
-        Journal.info("开始需改文件...")
-        full_path = os.path.join(self.repo_path, file_path)
+        Journal.info("Start modifying the file...")
+        now_date = datetime.now().date()
+        full_path = os.path.join(
+            self.repo_path, now_date.year, f"{now_date.month}-{now_date.day}", file_path
+        )
         with open(full_path, "a") as file:
             file.write(content)
-        Journal.success("文件写入完成...")
+        Journal.success("The file is written...")
         self.repo.git.add(file_path)
-        Journal.success("文件添加完成...")
+        Journal.success("File added...")
         self.repo.index.commit(commit_message)
-        Journal.success("文件提交暂存区完成...")
+        Journal.success("File submission to staging area completed...")
 
     def push_changes(self):
         origin = self.repo.remote(name="origin")
         origin.push(self.branch_name)
-        Journal.success(f"文件提交远程分支 {self.branch_name} 完成...")
+        Journal.success(f"File commit remote branch complete {self.branch_name} ...")

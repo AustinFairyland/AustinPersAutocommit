@@ -36,40 +36,27 @@ class Main:
 
     @staticmethod
     def run():
-        Journal.info("开始执行")
+        Journal.info("Start execution...")
         git_automator = GitAutomator(
-            repo_path="data/repository/AustinPractice",
-            remote_url="git@github.com:AustinFairyland/AustinPractice.git",
+            repo_path="data/repository/AutocommitRepository",
+            remote_url="git@github.com:AustinFairyland/AutocommitRepository.git",
+            branch_name="ReleaseMaster",
         )
-
         git_automator.checkout_branch()
         git_automator.modify_and_commit(
-            file_path="_main.py",
-            content=f"print('{time.time()}')",
-            commit_message="Modify file and commit",
+            file_path=f"_main_{datetime.now().date()}.py",
+            content=f"print('{DateTimeUtils.normdatetime()}')\n",
+            commit_message=":art: Modify file and commit",
         )
         git_automator.push_changes()
-        Journal.info("执行结束")
+        Journal.info("End of execution...")
 
-    @staticmethod
-    def keep_run():
+    @classmethod
+    def keep_run(cls):
         while True:
-            Journal.info("开始执行")
-            git_automator = GitAutomator(
-                repo_path="data/repository/AustinPractice",
-                remote_url="git@github.com:AustinFairyland/AustinPractice.git",
-            )
-
-            git_automator.checkout_branch()
-            git_automator.modify_and_commit(
-                file_path=f"_main_{datetime.now().date()}.py",
-                content=f"print('{DateTimeUtils.normdatetime()}')\n",
-                commit_message="Modify file and commit",
-            )
-            git_automator.push_changes()
-            Journal.info("执行结束")
-            sleep_time = random.randint(100, 500)
-            Journal.warning(f"{sleep_time}秒后继续执行...")
+            cls.run()
+            sleep_time = random.randint(150, 500)
+            Journal.warning(f"Execution continues after {sleep_time} seconds")
             time.sleep(sleep_time)
 
 
