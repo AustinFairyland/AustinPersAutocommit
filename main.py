@@ -38,9 +38,11 @@ class Main:
     def run():
         Journal.info("Start execution...")
         git_automator = GitAutomator(
-            repo_path="data/repository/AutocommitRepository",
-            remote_url="git@github.com:AustinFairyland/AutocommitRepository.git",
-            branch_name="ReleaseMaster",
+            # repo_path="data/repository/AutocommitRepository",
+            repo_path="data/repository/AustinPractice",
+            # remote_url="git@github.com:AustinFairyland/AutocommitRepository.git",
+            remote_url="git@github.com:AustinFairyland/AustinPractice.git",
+            # branch_name="ReleaseMaster",
         )
         git_automator.checkout_branch()
         git_automator.modify_and_commit(
@@ -55,7 +57,7 @@ class Main:
     def keep_run(cls):
         while True:
             cls.run()
-            sleep_time = random.randint(200, 500)
+            sleep_time = random.randint(500, 1000)
             Journal.warning(f"Execution continues after {sleep_time} seconds")
             time.sleep(sleep_time)
 
