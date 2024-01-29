@@ -39,10 +39,14 @@ class GitAutomator:
 
     def initialize_repo(self):
         if not os.path.exists(self.repo_path):
-            Journal.info(f"Start cloning the repository: {self.remote_url} to {self.repo_path} ...")
+            Journal.info(
+                f"Start cloning the repository: {self.remote_url} to {self.repo_path} ..."
+            )
             return Repo.clone_from(self.remote_url, self.repo_path)
         else:
-            Journal.info(f"Local: {self.repo_path} Existing remote repository: {self.remote_url}")
+            Journal.info(
+                f"Local: {self.repo_path} Existing remote repository: {self.remote_url}"
+            )
             return Repo(self.repo_path)
 
     def checkout_branch(self):
@@ -54,7 +58,9 @@ class GitAutomator:
                 "ReleaseMaster" if "ReleaseMaster" in self.repo.heads else "master"
             )
             self.repo.git.checkout(master_branch)
-            Journal.success(f"Toggling the default branch is complete {master_branch} ...")
+            Journal.success(
+                f"Toggling the default branch is complete {master_branch} ..."
+            )
             self.repo.git.checkout("-b", self.branch_name)
             Journal.success(f"Branch switch completed {self.branch_name} ...")
 
@@ -62,7 +68,10 @@ class GitAutomator:
         Journal.info("Start modifying the file...")
         now_date = datetime.now().date()
         full_path = os.path.join(
-            self.repo_path, now_date.year, f"{now_date.month}-{now_date.day}", file_path
+            self.repo_path,
+            f"{now_date.year}",
+            f"{now_date.month}-{now_date.day}",
+            file_path,
         )
         with open(full_path, "a") as file:
             file.write(content)
