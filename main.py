@@ -39,10 +39,8 @@ class Main:
         Journal.info("Start execution...")
         git_automator = GitAutomator(
             repo_path="data/repository/AutocommitRepository",
-            # repo_path="data/repository/AustinPractice",
-            remote_url="git@github.com:AustinFairyland/AutocommitRepository.git",
-            # remote_url="git@github.com:AustinFairyland/AustinPractice.git",
-            branch_name="ReleaseMaster",
+            remote_url=os.environ.get("GIT_REMOTE_URL") if os.environ.get("GIT_REMOTE_URL") else "git@github.com:AustinFairyland/AutocommitRepository.git",
+            branch_name=os.environ.get("GIT_REMOTE_BRANCH") if os.environ.get("GIT_REMOTE_BRANCH") else "ReleaseMaster",
         )
         git_automator.checkout_branch()
         git_automator.modify_and_commit(
@@ -63,5 +61,15 @@ class Main:
 
 
 if __name__ == "__main__":
+    (
+        Journal.info("Env Path: GIT_REMOTE_URL: {}".format(os.environ.get("GIT_REMOTE_URL")))
+        if os.environ.get("GIT_REMOTE_URL")
+        else Journal.info("Not Found Env Path: GIT_REMOTE_URL")
+    )
+    (
+        Journal.info("Env Path: GIT_REMOTE_BRANCH: {}".format(os.environ.get("GIT_REMOTE_BRANCH")))
+        if os.environ.get("GIT_REMOTE_BRANCH")
+        else Journal.info("Not Found Env Path: GIT_REMOTE_BRANCH")
+    )
     # Main.run()
     Main.keep_run()
