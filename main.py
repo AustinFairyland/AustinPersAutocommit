@@ -57,7 +57,7 @@ class Main:
     def keep_run(cls):
         while True:
             cls.run()
-            sleep_time = random.randint(500, 1000)
+            sleep_time = random.randint(1000, 2000)
             Journal.warning(f"Execution continues after {sleep_time} seconds")
             time.sleep(sleep_time)
 
