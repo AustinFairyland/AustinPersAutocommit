@@ -6,4 +6,5 @@
 # @OperatingSystem: Windows 11 Professional Workstation 23H2 Canary Channel
 # @CreatedTime: 2024-01-29
 
+# docker build --no-cache -t austinfairyland/autocommit:latest -f austinfairyland/autocommot:v1.0.1_alpha
 docker build --no-cache -t austinfairyland/autocommit:latest -f "$1"
