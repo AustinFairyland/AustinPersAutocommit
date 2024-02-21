@@ -33,14 +33,15 @@ from fairyland.framework.utils.datetimes import DateTimeUtils
 
 
 class Main:
-
     @staticmethod
     def run():
         Journal.info("Start execution...")
         git_automator = GitAutomator(
             repo_path="data/repository/AutocommitRepository",
-            remote_url="git@github.com:AustinFairyland/AutocommitRepository.git",
-            branch_name="ReleaseMaster",
+            remote_url=os.environ.get("GIT_REMOTE_URL")
+            if os.environ.get("GIT_REMOTE_URL")
+            else "git@github.com:AustinFairyland/AutocommitRepository.git",
+            branch_name=os.environ.get("GIT_REMOTE_BRANCH") if os.environ.get("GIT_REMOTE_BRANCH") else "ReleaseMaster",
         )
         git_automator.checkout_branch()
         git_automator.modify_and_commit(
@@ -55,11 +56,15 @@ class Main:
     def keep_run(cls):
         while True:
             cls.run()
-            sleep_time = random.randint(150, 500)
+            sleep_time = random.randint(5000, 10000)
             Journal.warning(f"Execution continues after {sleep_time} seconds")
             time.sleep(sleep_time)
 
 
 if __name__ == "__main__":
-    # Main.run()
+    print(end="")
+    git_remote_url = os.environ.get("GIT_REMOTE_URL")
+    git_remote_branch = os.environ.get("GIT_REMOTE_BRANCH")
+    Journal.info(f"Env Path: GIT_REMOTE_URL: {git_remote_branch}") if git_remote_url else Journal.info("Not Found Env Path: GIT_REMOTE_URL")
+    Journal.info(f"Env Path: GIT_REMOTE_BRANCH: {git_remote_branch}") if git_remote_branch else Journal.info("Not Found Env Path: GIT_REMOTE_BRANCH")
     Main.keep_run()

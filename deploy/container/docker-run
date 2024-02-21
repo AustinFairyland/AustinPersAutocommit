@@ -1,0 +1,14 @@
+#!/bin/bash
+# @File: docker-run
+# @Editor: PyCharm
+# @Author: Austin (From Chengdu.China) https://fairy.host
+# @HomePage: https://github.com/AustinFairyland
+# @OperatingSystem: Windows 11 Professional Workstation 23H2 Canary Channel
+# @CreatedTime: 2024-02-03
+
+docker run -d --name autocommit-service \
+  -e TZ=Asia/Shanghai \
+  -e GIT_REMOTE_URL="$2" \
+  -e GIT_REMOTE_BRANCH="$3" \
+  --restart always \
+  "$1"
